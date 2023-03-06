@@ -1,5 +1,0 @@
-token = '1616104100:AAHhcHJDRbdbDBA_ArThvht4JhdyDmremWI'
-openai.api_key = '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'
-
-token = 'TokenTelegramBot'
-openai.api_key = 'Token_OpenAI'
