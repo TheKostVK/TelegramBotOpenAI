@@ -23,7 +23,8 @@ def message_text(message: Message) -> str:
     if message_text is None:
         return ''
 
-    for _, text in sorted(message.parse_entities([MessageEntity.BOT_COMMAND]).items(), key=(lambda item: item[0].offset)):
+    for _, text in sorted(message.parse_entities([MessageEntity.BOT_COMMAND]).items(),
+                          key=(lambda item: item[0].offset)):
         message_text = message_text.replace(text, '').strip()
 
     return message_text if len(message_text) > 0 else ''
@@ -68,7 +69,6 @@ class ChatGPTTelegramBot:
                     "Open source at https://github.com/n3d1117/chatgpt-telegram-bot"
         await update.message.reply_text(help_text, disable_web_page_preview=True)
 
-
     async def stats(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """
         Returns token usage statistics for current day and month.
@@ -79,7 +79,7 @@ class ChatGPTTelegramBot:
             return
 
         logging.info(f'User {update.message.from_user.name} requested their usage statistics')
-        
+
         user_id = update.message.from_user.id
         if user_id not in self.usage:
             self.usage[user_id] = UsageTracker(user_id, update.message.from_user.name)
@@ -88,25 +88,25 @@ class ChatGPTTelegramBot:
         images_today, images_month = self.usage[user_id].get_current_image_count()
         transcribe_durations = self.usage[user_id].get_current_transcription_duration()
         cost_today, cost_month = self.usage[user_id].get_current_cost()
-        
+
         chat_id = update.effective_chat.id
         chat_messages, chat_token_length = self.openai.get_conversation_stats(chat_id)
         budget = await self.get_remaining_budget(update)
 
-        text_current_conversation = f"*Current conversation:*\n"+\
-                     f"{chat_messages} chat messages in history.\n"+\
-                     f"{chat_token_length} chat tokens in history.\n"+\
+        text_current_conversation = f"*Current conversation:*\n" + \
+                                    f"{chat_messages} chat messages in history.\n" + \
+                                    f"{chat_token_length} chat tokens in history.\n" + \
+                                    f"----------------------------\n"
+        text_today = f"*Usage today:*\n" + \
+                     f"{tokens_today} chat tokens used.\n" + \
+                     f"{images_today} images generated.\n" + \
+                     f"{transcribe_durations[0]} minutes and {transcribe_durations[1]} seconds transcribed.\n" + \
+                     f"💰 For a total amount of ${cost_today:.2f}\n" + \
                      f"----------------------------\n"
-        text_today = f"*Usage today:*\n"+\
-                     f"{tokens_today} chat tokens used.\n"+\
-                     f"{images_today} images generated.\n"+\
-                     f"{transcribe_durations[0]} minutes and {transcribe_durations[1]} seconds transcribed.\n"+\
-                     f"💰 For a total amount of ${cost_today:.2f}\n"+\
-                     f"----------------------------\n"
-        text_month = f"*Usage this month:*\n"+\
-                     f"{tokens_month} chat tokens used.\n"+\
-                     f"{images_month} images generated.\n"+\
-                     f"{transcribe_durations[2]} minutes and {transcribe_durations[3]} seconds transcribed.\n"+\
+        text_month = f"*Usage this month:*\n" + \
+                     f"{tokens_month} chat tokens used.\n" + \
+                     f"{images_month} images generated.\n" + \
+                     f"{transcribe_durations[2]} minutes and {transcribe_durations[3]} seconds transcribed.\n" + \
                      f"💰 For a total amount of ${cost_month:.2f}"
         # text_budget filled with conditional content
         text_budget = "\n\n"
@@ -118,7 +118,7 @@ class ChatGPTTelegramBot:
             if grant_balance > 0.0:
                 text_budget += f"Your remaining OpenAI grant balance is ${grant_balance:.2f}.\n"
             text_budget += f"Your OpenAI account was billed ${self.openai.get_billing_current_month():.2f} this month."
-        
+
         usage_text = text_current_conversation + text_today + text_month + text_budget
         await update.message.reply_text(usage_text, parse_mode=constants.ParseMode.MARKDOWN)
 
@@ -151,7 +151,7 @@ class ChatGPTTelegramBot:
             logging.warning(f'User {update.message.from_user.name} reached their usage limit')
             await self.send_budget_reached_message(update, context)
             return
-        
+
         chat_id = update.effective_chat.id
         image_query = message_text(update.message)
         if image_query == '':
@@ -192,7 +192,7 @@ class ChatGPTTelegramBot:
             logging.warning(f'User {update.message.from_user.name} is not allowed to transcribe audio messages')
             await self.send_disallowed_message(update, context)
             return
-        
+
         if not await self.is_within_budget(update):
             logging.warning(f'User {update.message.from_user.name} reached their usage limit')
             await self.send_budget_reached_message(update, context)
@@ -320,7 +320,7 @@ class ChatGPTTelegramBot:
             logging.warning(f'User {update.message.from_user.name} reached their usage limit')
             await self.send_budget_reached_message(update, context)
             return
-        
+
         logging.info(f'New message received from user {update.message.from_user.name}')
         chat_id = update.effective_chat.id
         user_id = update.message.from_user.id
@@ -360,7 +360,8 @@ class ChatGPTTelegramBot:
                         if chunk != len(chunks) - 1:
                             chunk += 1
                             try:
-                                await self.edit_message_with_retry(context, chat_id, sent_message.message_id, chunks[-2])
+                                await self.edit_message_with_retry(context, chat_id, sent_message.message_id,
+                                                                   chunks[-2])
                             except:
                                 pass
                             try:
@@ -374,9 +375,11 @@ class ChatGPTTelegramBot:
 
                     if is_group_chat:
                         # group chats have stricter flood limits
-                        cutoff = 180 if len(content) > 1000 else 120 if len(content) > 200 else 90 if len(content) > 50 else 50
+                        cutoff = 180 if len(content) > 1000 else 120 if len(content) > 200 else 90 if len(
+                            content) > 50 else 50
                     else:
-                        cutoff = 90 if len(content) > 1000 else 45 if len(content) > 200 else 25 if len(content) > 50 else 15
+                        cutoff = 90 if len(content) > 1000 else 45 if len(content) > 200 else 25 if len(
+                            content) > 50 else 15
 
                     cutoff += backoff
 
@@ -473,7 +476,8 @@ class ChatGPTTelegramBot:
 
         await update.inline_query.answer(results)
 
-    async def edit_message_with_retry(self, context: ContextTypes.DEFAULT_TYPE, chat_id: int, message_id: int, text: str):
+    async def edit_message_with_retry(self, context: ContextTypes.DEFAULT_TYPE, chat_id: int, message_id: int,
+                                      text: str):
         """
         Edit a message with retry logic in case of failure (e.g. broken markdown)
         :param context: The context to use
@@ -557,10 +561,10 @@ class ChatGPTTelegramBot:
         """
         if self.config['allowed_user_ids'] == '*':
             return True
-        
+
         if self.is_admin(update):
             return True
-        
+
         allowed_user_ids = self.config['allowed_user_ids'].split(',')
         # Check if user is allowed
         if str(update.message.from_user.id) in allowed_user_ids:

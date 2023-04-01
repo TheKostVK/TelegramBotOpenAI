@@ -2,7 +2,7 @@ version: '3'
 services:
   chatgpt-telegram-bot:
     build:
-      context: ../../../../../Desktop/chatgpt-telegram-bot-main
+      context: ../../../../../Desktop/TelegramBotOpenAI
       dockerfile: Dockerfile
     volumes:
       - .:/app
