@@ -5,7 +5,6 @@
 ![python-version](https://img.shields.io/badge/python-3.9-blue.svg)
 [![openai-version](https://img.shields.io/badge/openai-0.27.2-orange.svg)](https://openai.com/)
 [![license](https://img.shields.io/badge/License-GPL%202.0-brightgreen.svg)](LICENSE)
-[![Publish Docker image](https://github.com/n3d1117/chatgpt-telegram-bot/actions/workflows/publish.yaml/badge.svg)](https://github.com/n3d1117/chatgpt-telegram-bot/actions/workflows/publish.yaml)
 
 A [Telegram bot](https://core.telegram.org/bots/api) that integrates with OpenAI's _official_ [ChatGPT](https://openai.com/blog/chatgpt/) APIs to provide answers. Ready to use with minimal configuration required.
 
@@ -20,17 +19,17 @@ A [Telegram bot](https://core.telegram.org/bots/api) that integrates with OpenAI
 - [x] Docker and Proxy support
 - [x] (NEW!) Image generation using DALL·E via the `/image` command
 - [x] (NEW!) Transcribe audio and video messages using Whisper (may require [ffmpeg](https://ffmpeg.org))
-- [x] (NEW!) Automatic conversation summary to avoid excessive token usage (fixes [#34](https://github.com/n3d1117/chatgpt-telegram-bot/issues/34))
+- [x] (NEW!) Automatic conversation summary to avoid excessive token usage 
 - [x] (NEW!) Group chat support with inline queries 
   - To use this feature, enable inline queries for your bot in BotFather via the `/setinline` [command](https://core.telegram.org/bots/inline)
-- [x] (NEW!) Track token usage per user - by [@AlexHTW](https://github.com/AlexHTW)
-- [x] (NEW!) Get personal token usage statistics and cost per day/month via the `/stats` command - by [@AlexHTW](https://github.com/AlexHTW)
-- [x] (NEW!) User budgets and guest budgets - by [@AlexHTW](https://github.com/AlexHTW)
+- [x] (NEW!) Track token usage per user
+- [x] (NEW!) Get personal token usage statistics and cost per day/month via the `/stats` command
+- [x] (NEW!) User budgets and guest budget
 - [x] (NEW!) Stream support
 
 ## Additional features - help needed!
-- [ ] Add session persistence ([#70](https://github.com/n3d1117/chatgpt-telegram-bot/issues/70), [#71](https://github.com/n3d1117/chatgpt-telegram-bot/issues/71))
-
+- [ ] Add session persistence
+- 
 PRs are always welcome!
 
 ## Prerequisites
@@ -81,8 +80,8 @@ Check out the [official API reference](https://platform.openai.com/docs/api-refe
 Clone the repository and navigate to the project directory:
 
 ```shell
-git clone https://github.com/n3d1117/chatgpt-telegram-bot.git
-cd chatgpt-telegram-bot
+git clone https://github.com/TheKostVK/TelegramBotOpenAI.git
+cd TelegramBotOpenAI
 ```
 
 #### From Source
@@ -117,18 +116,6 @@ Run the following command to build and run the Docker image:
 docker compose up
 ```
 
-#### Ready-to-use Docker images
-You can also use the Docker image from [Docker Hub](https://hub.docker.com/r/n3d1117/chatgpt-telegram-bot):
-```shell
-docker pull n3d1117/chatgpt-telegram-bot:latest
-```
-
-or using the [GitHub Container Registry](https://github.com/n3d1117/chatgpt-telegram-bot/pkgs/container/chatgpt-telegram-bot/):
-
-```shell
-docker pull ghcr.io/n3d1117/chatgpt-telegram-bot:latest
-```
-
 ## Credits
 - [ChatGPT](https://chat.openai.com/chat) from [OpenAI](https://openai.com)
 - [python-telegram-bot](https://python-telegram-bot.org)
@@ -136,6 +123,3 @@ docker pull ghcr.io/n3d1117/chatgpt-telegram-bot:latest
 
 ## Disclaimer
 This is a personal project and is not affiliated with OpenAI in any way.
-
-## License
-This project is released under the terms of the GPL 2.0 license. For more information, see the [LICENSE](LICENSE) file included in the repository.
